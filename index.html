@@ -1,0 +1,794 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Mediatec | Marketing & Tecnologia</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            neon: '#00FF85',
+            cyber: '#00F0FF',
+            void: '#030014',
+            plasma: '#9D00FF',
+          },
+          fontFamily: {
+            poppins: ['Poppins', 'sans-serif'],
+            space: ['Space Grotesk', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #030014;
+      color: #ECF0F1;
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+    }
+    html { scroll-behavior: smooth; }
+    
+    /* FUNDO GALÁCTICO NEBULOSA */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(ellipse at 70% 20%, rgba(157, 0, 255, 0.1) 0%, transparent 40%),
+        radial-gradient(ellipse at 30% 80%, rgba(0, 255, 133, 0.08) 0%, transparent 40%),
+        radial-gradient(ellipse at 50% 50%, rgba(0, 240, 255, 0.05) 0%, transparent 60%),
+        #030014;
+      z-index: 0;
+    }
+
+    /* ESTRELAS */
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+    .star {
+      position: fixed;
+      width: 1px; height: 1px;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle 4s infinite;
+      z-index: 1;
+    }
+    .star-big {
+      width: 2px; height: 2px;
+      box-shadow: 0 0 4px white;
+    }
+
+    /* COMETAS */
+    @keyframes comet {
+      0% { transform: translateX(-100px) translateY(-100px); opacity: 0; }
+      10% { opacity: 1; }
+      100% { transform: translateX(100vw) translateY(100vh); opacity: 0; }
+    }
+    .comet {
+      position: fixed;
+      width: 4px; height: 4px;
+      background: linear-gradient(45deg, #00FF85, transparent);
+      border-radius: 50%;
+      box-shadow: 0 0 15px #00FF85, 0 0 30px #00FF85;
+      animation: comet 5s linear infinite;
+      z-index: 1;
+    }
+    
+    /* LOGO MEDIATEC OFICIAL */
+    .logo-mediatec {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: white;
+      letter-spacing: -0.5px;
+      display: inline-block;
+    }
+    .logo-mediatec .dot {
+      color: #00FF85;
+      font-size: 2.2rem;
+      line-height: 0;
+      position: relative;
+      top: -2px;
+    }
+    
+    /* ELEMENTO HERO - GRID GEOMÉTRICO */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(3deg); }
+    }
+
+    .hero-visual {
+      width: 380px;
+      height: 380px;
+      position: relative;
+      animation: float 8s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 768px) {
+      .hero-visual {
+        width: 240px;
+        height: 240px;
+      }
+    }
+
+    .hero-visual svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    /* CARD GLASS */
+    .glass-card {
+      background: rgba(10, 10, 26, 0.6);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s;
+    }
+    .glass-card:hover {
+      border-color: rgba(0, 255, 133, 0.4);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 40px rgba(0, 255, 133, 0.1);
+    }
+    
+    /* BOTÃO */
+    .btn-primary {
+      background: white;
+      color: #030014;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+    .btn-primary:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+    }
+    .btn-outline {
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: transparent;
+      color: white;
+      transition: all 0.3s;
+    }
+    .btn-outline:hover {
+      border-color: #00FF85;
+      background: rgba(0, 255, 133, 0.1);
+    }
+    
+    /* REVEAL */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease;
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* BADGE PREÇO */
+    .price-badge {
+      background: linear-gradient(135deg, #00FF85, #00F0FF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    /* BADGE "A PARTIR DE" */
+    .from-badge {
+      font-size: 0.7rem;
+      color: #00FF85;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* ÍCONES SVG DOS SERVIÇOS */
+    .service-icon {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.05);
+      border-radius: 10px;
+      margin-bottom: 12px;
+    }
+    .service-icon svg {
+      width: 24px;
+      height: 24px;
+      stroke: #00FF85;
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* MOBILE FIRST AJUSTES */
+    @media (max-width: 640px) {
+      .logo-mediatec { font-size: 1.4rem; }
+      h1 { font-size: 2rem !important; line-height: 1.2 !important; }
+      h2 { font-size: 1.8rem !important; line-height: 1.2 !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ESTRELAS -->
+  <div class="star star-big" style="top:10%;left:20%;animation-delay:0s;"></div>
+  <div class="star star-big" style="top:30%;left:80%;animation-delay:1s;"></div>
+  <div class="star" style="top:50%;left:15%;animation-delay:2s;"></div>
+  <div class="star" style="top:70%;left:90%;animation-delay:0.5s;"></div>
+  <div class="star" style="top:85%;left:40%;animation-delay:1.5s;"></div>
+  <div class="star" style="top:25%;left:50%;animation-delay:2.5s;"></div>
+  <div class="star" style="top:60%;left:70%;animation-delay:0.8s;"></div>
+  <div class="star" style="top:40%;left:30%;animation-delay:1.8s;"></div>
+  <div class="star" style="top:15%;left:75%;animation-delay:3s;"></div>
+  <div class="star" style="top:90%;left:25%;animation-delay:2.2s;"></div>
+
+  <!-- COMETAS -->
+  <div class="comet" style="top:20%;animation-delay:0s;"></div>
+  <div class="comet" style="top:60%;animation-delay:2.5s;"></div>
+  <div class="comet" style="top:40%;animation-delay:5s;"></div>
+
+  <!-- HEADER -->
+  <header class="fixed w-full z-50 top-0 bg-void/80 backdrop-blur-xl border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+      <div class="logo-mediatec">Media<span class="dot">•</span>tec</div>
+      <nav class="hidden lg:flex gap-8 text-sm">
+        <a href="#inicio" class="text-neon border-b-2 border-neon pb-1">INÍCIO</a>
+        <a href="#agencia" class="hover:text-neon transition">QUEM SOMOS</a>
+        <a href="#servicos" class="hover:text-neon transition">SERVIÇOS</a>
+        <a href="#pacotes" class="hover:text-neon transition">PACOTES</a>
+        <a href="#contato" class="hover:text-neon transition">CONTATO</a>
+      </nav>
+      <a href="https://wa.me/5533991252910" target="_blank" class="btn-outline px-6 py-2 rounded-full text-sm font-semibold flex items-center gap-2">
+        ORÇAMENTO →
+      </a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section id="inicio" class="min-h-screen flex items-center px-6 pt-28 pb-16 relative z-10">
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-10 items-center w-full">
+      
+      <!-- TEXTO PRIMEIRO NO MOBILE -->
+      <div class="reveal order-1">
+        <div class="text-xs tracking-widest text-gray-400 mb-4">AGÊNCIA MEDIATEC</div>
+        <h1 class="text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+          Marketing & Tecnologia<br/>
+          que transforma ideias<br/>
+          em <span class="text-gray-400 italic font-light">resultados.</span>
+        </h1>
+        <p class="text-gray-400 mb-8 max-w-lg">
+          Criamos estratégias, designs e soluções digitais sob medida para marcas que querem crescer de verdade.
+        </p>
+        <div class="flex gap-4 flex-wrap">
+          <a href="#servicos" class="btn-primary px-8 py-3 rounded-full flex items-center gap-2">
+            CONHEÇA NOSSOS SERVIÇOS →
+          </a>
+          <a href="#pacotes" class="btn-outline px-8 py-3 rounded-full flex items-center gap-2">
+            VER PACOTES →
+          </a>
+        </div>
+      </div>
+      
+      <!-- VISUAL SEGUNDO NO MOBILE -->
+      <div class="flex justify-center lg:justify-end reveal order-2">
+        <div class="hero-visual">
+          <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#00FF85" stop-opacity="0.3"/>
+                <stop offset="100%" stop-color="#030014" stop-opacity="0"/>
+              </radialGradient>
+              <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#00FF85" stop-opacity="0.8"/>
+                <stop offset="100%" stop-color="#00F0FF" stop-opacity="0.8"/>
+              </linearGradient>
+              <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#9D00FF" stop-opacity="0.6"/>
+                <stop offset="100%" stop-color="#00F0FF" stop-opacity="0.6"/>
+              </linearGradient>
+              <filter id="blur-sm">
+                <feGaussianBlur stdDeviation="2"/>
+              </filter>
+            </defs>
+
+            <!-- Glow de fundo -->
+            <circle cx="200" cy="200" r="180" fill="url(#glow)"/>
+
+            <!-- Círculos concêntricos externos -->
+            <circle cx="200" cy="200" r="170" fill="none" stroke="rgba(0,255,133,0.08)" stroke-width="1"/>
+            <circle cx="200" cy="200" r="145" fill="none" stroke="rgba(0,255,133,0.12)" stroke-width="1"/>
+            <circle cx="200" cy="200" r="120" fill="none" stroke="rgba(0,240,255,0.15)" stroke-width="0.5" stroke-dasharray="4 6"/>
+
+            <!-- Linhas de grade radial -->
+            <line x1="200" y1="30" x2="200" y2="370" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+            <line x1="30" y1="200" x2="370" y2="200" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+            <line x1="79" y1="79" x2="321" y2="321" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+            <line x1="321" y1="79" x2="79" y2="321" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+
+            <!-- Hexágono externo -->
+            <polygon 
+              points="200,55 325,127 325,273 200,345 75,273 75,127" 
+              fill="rgba(0,255,133,0.03)" 
+              stroke="rgba(0,255,133,0.2)" 
+              stroke-width="1"
+            />
+
+            <!-- Hexágono médio rotacionado -->
+            <polygon 
+              points="200,90 305,150 305,250 200,310 95,250 95,150" 
+              fill="rgba(0,240,255,0.03)" 
+              stroke="rgba(0,240,255,0.15)" 
+              stroke-width="1"
+              transform="rotate(30, 200, 200)"
+            />
+
+            <!-- Losango central com gradiente -->
+            <polygon 
+              points="200,110 280,200 200,290 120,200" 
+              fill="rgba(10,10,30,0.8)" 
+              stroke="url(#grad1)" 
+              stroke-width="1.5"
+            />
+
+            <!-- Losango interno -->
+            <polygon 
+              points="200,145 255,200 200,255 145,200" 
+              fill="rgba(0,255,133,0.05)" 
+              stroke="rgba(0,255,133,0.4)" 
+              stroke-width="1"
+            />
+
+            <!-- Triângulo de luz -->
+            <polygon 
+              points="200,148 253,198 200,198" 
+              fill="rgba(255,255,255,0.04)" 
+            />
+
+            <!-- Ponto central brilhante -->
+            <circle cx="200" cy="200" r="8" fill="url(#grad1)" filter="url(#blur-sm)"/>
+            <circle cx="200" cy="200" r="4" fill="white" opacity="0.9"/>
+            <circle cx="200" cy="200" r="2" fill="#00FF85"/>
+
+            <!-- Nós nos vértices do hexágono -->
+            <circle cx="200" cy="55" r="3" fill="#00FF85" opacity="0.7"/>
+            <circle cx="325" cy="127" r="3" fill="#00F0FF" opacity="0.7"/>
+            <circle cx="325" cy="273" r="3" fill="#9D00FF" opacity="0.7"/>
+            <circle cx="200" cy="345" r="3" fill="#00FF85" opacity="0.7"/>
+            <circle cx="75" cy="273" r="3" fill="#00F0FF" opacity="0.7"/>
+            <circle cx="75" cy="127" r="3" fill="#9D00FF" opacity="0.7"/>
+
+            <!-- Linhas de conexão dos vértices ao centro (finas) -->
+            <line x1="200" y1="55" x2="200" y2="200" stroke="rgba(0,255,133,0.15)" stroke-width="0.8"/>
+            <line x1="325" y1="127" x2="200" y2="200" stroke="rgba(0,240,255,0.15)" stroke-width="0.8"/>
+            <line x1="325" y1="273" x2="200" y2="200" stroke="rgba(157,0,255,0.15)" stroke-width="0.8"/>
+            <line x1="200" y1="345" x2="200" y2="200" stroke="rgba(0,255,133,0.15)" stroke-width="0.8"/>
+            <line x1="75" y1="273" x2="200" y2="200" stroke="rgba(0,240,255,0.15)" stroke-width="0.8"/>
+            <line x1="75" y1="127" x2="200" y2="200" stroke="rgba(157,0,255,0.15)" stroke-width="0.8"/>
+
+            <!-- Arco decorativo -->
+            <path d="M 80 200 A 120 120 0 0 1 200 80" fill="none" stroke="url(#grad2)" stroke-width="1.5" stroke-dasharray="3 5"/>
+            <path d="M 320 200 A 120 120 0 0 1 200 320" fill="none" stroke="url(#grad1)" stroke-width="1.5" stroke-dasharray="3 5"/>
+
+            <!-- Pequenos pontos orbitais -->
+            <circle cx="200" cy="80" r="2.5" fill="#00FF85" opacity="0.9">
+              <animateTransform attributeName="transform" type="rotate" from="0 200 200" to="360 200 200" dur="12s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="320" cy="200" r="2" fill="#00F0FF" opacity="0.9">
+              <animateTransform attributeName="transform" type="rotate" from="0 200 200" to="-360 200 200" dur="18s" repeatCount="indefinite"/>
+            </circle>
+
+            <!-- Label sutil -->
+            <text x="200" y="390" text-anchor="middle" fill="rgba(0,255,133,0.3)" font-family="'Poppins', sans-serif" font-size="9" letter-spacing="4">MEDIATEC</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVIÇOS RÁPIDOS -->
+  <section class="px-6 py-12 relative z-10">
+    <div class="max-w-7xl mx-auto">
+      <div class="glass-card rounded-2xl p-8 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 reveal">
+        
+        <div class="text-center">
+          <div class="service-icon mx-auto">
+            <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="15" y2="11"/><line x1="9" y1="15" x2="12" y2="15"/></svg>
+          </div>
+          <h3 class="font-semibold text-sm mb-1">Social Media</h3>
+          <p class="text-xs text-gray-500">Gestão completa de redes sociais</p>
+        </div>
+
+        <div class="text-center">
+          <div class="service-icon mx-auto">
+            <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          </div>
+          <h3 class="font-semibold text-sm mb-1">Design Gráfico</h3>
+          <p class="text-xs text-gray-500">Peças criativas que comunicam</p>
+        </div>
+
+        <div class="text-center">
+          <div class="service-icon mx-auto">
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <h3 class="font-semibold text-sm mb-1">Identidade Visual</h3>
+          <p class="text-xs text-gray-500">Marcas fortes, memórias duradouras</p>
+        </div>
+
+        <div class="text-center">
+          <div class="service-icon mx-auto">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <h3 class="font-semibold text-sm mb-1">Tráfego Pago</h3>
+          <p class="text-xs text-gray-500">Mais alcance, mais clientes</p>
+        </div>
+
+        <div class="text-center">
+          <div class="service-icon mx-auto">
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <h3 class="font-semibold text-sm mb-1">Sites e Apps</h3>
+          <p class="text-xs text-gray-500">Sites e apps sob medida</p>
+        </div>
+
+        <div class="text-center">
+          <div class="service-icon mx-auto">
+            <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+          </div>
+          <h3 class="font-semibold text-sm mb-1">Edição de Vídeo</h3>
+          <p class="text-xs text-gray-500">Edição profissional</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- A AGÊNCIA / SOBRE NÓS -->
+  <section id="agencia" class="px-6 py-32 relative z-10">
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+      <div class="reveal order-1">
+        <div class="text-xs tracking-widest text-gray-400 mb-4">QUEM SOMOS</div>
+        <h2 class="text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+          Criada para transformar<br/>
+          presença digital<br/>
+          em <span class="text-gray-400 italic font-light">vendas.</span>
+        </h2>
+        <p class="text-gray-400 mb-6">
+          A Mediatec nasceu com um propósito claro: transformar presença digital em vendas reais. Somos uma agência criada por quem entende que estar nas redes não é suficiente — o que importa é aparecer do jeito certo, para as pessoas certas, no momento certo.
+        </p>
+        <p class="text-gray-400 mb-6">
+          Unimos estratégia, design e tecnologia para construir marcas que vendem. Desde o primeiro logo até campanhas completas de tráfego pago, cada entrega é pensada para gerar resultado concreto — mais cliques, mais contatos, mais negócios fechados.
+        </p>
+        <p class="text-gray-400 mb-8">
+          <strong class="text-white">Nossa missão:</strong> Fazer sua marca crescer no digital com inteligência e criatividade. Atendemos negócios de todos os tamanhos em todo o Brasil, com o mesmo compromisso: qualidade, prazo e preço justo.
+        </p>
+        <div class="flex gap-8 mb-8 text-sm flex-wrap">
+          <div>
+            <div class="text-gray-500 mb-1">Fundada em</div>
+            <div class="font-semibold">2024</div>
+          </div>
+          <div>
+            <div class="text-gray-500 mb-1">Atuamos em</div>
+            <div class="font-semibold">todo o Brasil</div>
+          </div>
+          <div>
+            <div class="text-gray-500 mb-1">CNPJ</div>
+            <div class="font-semibold">54.972.341/0001-02</div>
+          </div>
+        </div>
+        <a href="https://wa.me/5533991252910" target="_blank" class="btn-outline px-8 py-3 rounded-full inline-flex items-center gap-2">
+          FALE COM A GENTE →
+        </a>
+      </div>
+      
+      <div class="relative reveal order-2">
+        <div class="glass-card rounded-3xl p-8 relative flex flex-col items-center justify-center min-h-[360px]">
+          <!-- Visual abstrato substituto da estrela secundária -->
+          <svg width="260" height="260" viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="ag1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#00FF85" stop-opacity="0.5"/>
+                <stop offset="100%" stop-color="#9D00FF" stop-opacity="0.5"/>
+              </linearGradient>
+            </defs>
+            <circle cx="130" cy="130" r="120" fill="none" stroke="rgba(0,255,133,0.08)" stroke-width="1"/>
+            <circle cx="130" cy="130" r="95" fill="none" stroke="rgba(0,255,133,0.12)" stroke-width="1" stroke-dasharray="3 5"/>
+            <circle cx="130" cy="130" r="65" fill="rgba(0,255,133,0.04)" stroke="rgba(0,255,133,0.2)" stroke-width="1"/>
+            <polygon points="130,40 178,100 160,170 100,170 82,100" fill="rgba(10,10,30,0.7)" stroke="url(#ag1)" stroke-width="1.5"/>
+            <circle cx="130" cy="130" r="18" fill="rgba(0,255,133,0.08)" stroke="rgba(0,255,133,0.4)" stroke-width="1"/>
+            <circle cx="130" cy="130" r="5" fill="#00FF85" opacity="0.9"/>
+            <circle cx="130" cy="10" r="2.5" fill="#00FF85">
+              <animateTransform attributeName="transform" type="rotate" from="0 130 130" to="360 130 130" dur="10s" repeatCount="indefinite"/>
+            </circle>
+          </svg>
+          <div class="glass-card rounded-2xl p-5 absolute bottom-6 right-6 max-w-[200px]">
+            <div class="text-xs text-gray-400 mb-2">PROPÓSITO</div>
+            <p class="text-xs">Fortalecer a presença digital de marcas com estratégia, criatividade e tecnologia aplicada.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVIÇOS COMPLETOS -->
+  <section id="servicos" class="px-6 py-32 relative z-10">
+    <div class="max-w-7xl mx-auto">
+      <div class="mb-16 reveal">
+        <div class="text-xs tracking-widest text-gray-400 mb-4">SERVIÇOS</div>
+        <div class="grid lg:grid-cols-2 gap-8">
+          <h2 class="text-4xl lg:text-5xl font-bold leading-tight">
+            Soluções completas<br/>
+            para o seu projeto<br/>
+            digital <span class="text-gray-400 italic font-light">decolar.</span>
+          </h2>
+          <p class="text-gray-400 flex items-end">
+            Da estratégia à execução, oferecemos tudo o que sua marca precisa para se destacar e crescer no ambiente digital.
+          </p>
+        </div>
+      </div>
+      
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <div class="glass-card rounded-2xl p-6 reveal">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="15" y2="11"/><line x1="9" y1="15" x2="12" y2="15"/></svg>
+          </div>
+          <h3 class="font-semibold mb-2">Social Media</h3>
+          <p class="text-sm text-gray-400 mb-4">Gestão de redes sociais, conteúdo estratégico e relacionamento.</p>
+          <a href="https://wa.me/5533991252910" target="_blank" class="text-xs text-neon hover:underline">SAIBA MAIS →</a>
+        </div>
+
+        <div class="glass-card rounded-2xl p-6 reveal">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          </div>
+          <h3 class="font-semibold mb-2">Design Gráfico</h3>
+          <p class="text-sm text-gray-400 mb-4">Artes para posts, banners, folders, apresentações e muito mais.</p>
+          <a href="https://wa.me/5533991252910" target="_blank" class="text-xs text-neon hover:underline">SAIBA MAIS →</a>
+        </div>
+
+        <div class="glass-card rounded-2xl p-6 reveal">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <h3 class="font-semibold mb-2">Identidade Visual</h3>
+          <p class="text-sm text-gray-400 mb-4">Criação de logotipos, paletas, tipografia e manuais de marca.</p>
+          <a href="https://wa.me/5533991252910" target="_blank" class="text-xs text-neon hover:underline">SAIBA MAIS →</a>
+        </div>
+
+        <div class="glass-card rounded-2xl p-6 reveal">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <h3 class="font-semibold mb-2">Tráfego Pago</h3>
+          <p class="text-sm text-gray-400 mb-4">Campanhas que conectam sua marca com o público certo.</p>
+          <a href="https://wa.me/5533991252910" target="_blank" class="text-xs text-neon hover:underline">SAIBA MAIS →</a>
+        </div>
+
+        <div class="glass-card rounded-2xl p-6 reveal">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <h3 class="font-semibold mb-2">Sites e Apps</h3>
+          <p class="text-sm text-gray-400 mb-4">Desenvolvimento de sites e aplicativos sob medida.</p>
+          <a href="https://wa.me/5533991252910" target="_blank" class="text-xs text-neon hover:underline">SAIBA MAIS →</a>
+        </div>
+
+        <div class="glass-card rounded-2xl p-6 reveal">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+          </div>
+          <h3 class="font-semibold mb-2">Edição de Vídeo</h3>
+          <p class="text-sm text-gray-400 mb-4">Edição profissional para Reels, YouTube, anúncios e mais.</p>
+          <a href="https://wa.me/5533991252910" target="_blank" class="text-xs text-neon hover:underline">SAIBA MAIS →</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PACOTES COM PREÇOS REAIS -->
+  <section id="pacotes" class="px-6 py-32 relative z-10">
+    <div class="max-w-7xl mx-auto">
+      <div class="mb-16 reveal">
+        <div class="text-xs tracking-widest text-gray-400 mb-4">PACOTES EM DESTAQUE</div>
+        <div class="grid lg:grid-cols-2 gap-8">
+          <h2 class="text-4xl lg:text-5xl font-bold leading-tight">
+            Escolha o pacote ideal para<br/>
+            sua presença digital.
+          </h2>
+          <p class="text-gray-400 flex items-end">
+            Soluções práticas e acessíveis para impulsionar sua marca hoje mesmo.
+          </p>
+        </div>
+      </div>
+      
+      <!-- PACOTES DE DESIGN -->
+      <div class="mb-12">
+        <h3 class="text-2xl font-bold mb-6 text-neon">Design & Identidade</h3>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="glass-card rounded-2xl p-8 reveal">
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+            </div>
+            <h3 class="font-semibold text-lg mb-3">Pack 12 Designs</h3>
+            <p class="text-sm text-gray-400 mb-6">12 artes para Stories/Feed<br/>Prontas para postar<br/>Editáveis no Canva</p>
+            <div class="text-4xl font-bold mb-6 price-badge">R$ 100</div>
+            <a href="https://wa.me/5533991252910?text=Quero%20o%20Pack%2012%20Designs%20de%20R$100" target="_blank" class="btn-primary w-full py-3 rounded-full block text-center">QUERO ESTE</a>
+          </div>
+          
+          <div class="glass-card rounded-2xl p-8 reveal">
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            </div>
+            <h3 class="font-semibold text-lg mb-3">Logo</h3>
+            <p class="text-sm text-gray-400 mb-6">Logotipo profissional<br/>3 variações de cor<br/>Arquivos editáveis</p>
+            <div class="text-4xl font-bold mb-6 price-badge">R$ 150</div>
+            <a href="https://wa.me/5533991252910?text=Quero%20criar%20minha%20Logo%20por%20R$150" target="_blank" class="btn-primary w-full py-3 rounded-full block text-center">QUERO ESTE</a>
+          </div>
+          
+          <div class="glass-card rounded-2xl p-8 reveal border-2 border-neon/50">
+            <div class="text-xs text-neon mb-2 font-semibold">MAIS VENDIDO</div>
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            </div>
+            <h3 class="font-semibold text-lg mb-3">Logo + Cartão</h3>
+            <p class="text-sm text-gray-400 mb-6">Logotipo + Cartão de visita<br/>Design profissional<br/>Pronto pra imprimir</p>
+            <div class="text-4xl font-bold mb-6 price-badge">R$ 200</div>
+            <a href="https://wa.me/5533991252910?text=Quero%20Logo%20+%20Cartão%20por%20R$200" target="_blank" class="btn-primary w-full py-3 rounded-full block text-center">QUERO ESTE</a>
+          </div>
+          
+          <div class="glass-card rounded-2xl p-8 reveal">
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </div>
+            <h3 class="font-semibold text-lg mb-3">Kit Completo</h3>
+            <p class="text-sm text-gray-400 mb-6">Logo + Cartão + Panfleto<br/>Identidade completa<br/>Arquivos prontos</p>
+            <div class="text-4xl font-bold mb-6 price-badge">R$ 250</div>
+            <a href="https://wa.me/5533991252910?text=Quero%20o%20Kit%20Completo%20por%20R$250" target="_blank" class="btn-primary w-full py-3 rounded-full block text-center">QUERO ESTE</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONVITES E VÍDEOS -->
+      <div class="mb-12">
+        <h3 class="text-2xl font-bold mb-6 text-white">Convites & Vídeos</h3>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="glass-card rounded-2xl p-8 reveal">
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <h3 class="font-semibold text-lg mb-3">Convite Virtual</h3>
+            <p class="text-sm text-gray-400 mb-6">Casamento ou Aniversário<br/>Interativo + PDF<br/>Confirmação de presença</p>
+            <div class="from-badge mb-2">A partir de</div>
+            <div class="text-4xl font-bold mb-6 price-badge">R$ 80</div>
+            <a href="https://wa.me/5533991252910?text=Quero%20saber%20mais%20sobre%20Convite%20Virtual" target="_blank" class="btn-primary w-full py-3 rounded-full block text-center">QUERO ESTE</a>
+          </div>
+          
+          <div class="glass-card rounded-2xl p-8 reveal">
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+            </div>
+            <h3 class="font-semibold text-lg mb-3">Edição de Vídeo</h3>
+            <p class="text-sm text-gray-400 mb-6">Reels, YouTube, Anúncios<br/>Edição profissional<br/>Motion e efeitos</p>
+            <div class="from-badge mb-2">A partir de</div>
+            <div class="text-4xl font-bold mb-6 price-badge">R$ 80</div>
+            <a href="https://wa.me/5533991252910?text=Quero%20saber%20mais%20sobre%20Edição%20de%20Vídeo" target="_blank" class="btn-primary w-full py-3 rounded-full block text-center">QUERO ESTE</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- SERVIÇOS AVULSOS -->
+      <div class="mb-12">
+        <h3 class="text-2xl font-bold mb-6 text-white">Serviços Avulsos & Mensais</h3>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="glass-card rounded-2xl p-8 reveal">
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            </div>
+            <h3 class="font-semibold text-lg mb-3">Design Avulso</h3>
+            <p class="text-sm text-gray-400 mb-6">Arte única para post, banner,<br/>folder ou apresentação</p>
+            <div class="text-4xl font-bold mb-6 price-badge">R$ 30</div>
+            <a href="https://wa.me/5533991252910?text=Quero%20um%20Design%20Avulso%20por%20R$30" target="_blank" class="btn-primary w-full py-3 rounded-full block text-center">SOLICITAR</a>
+          </div>
+          
+          <div class="glass-card rounded-2xl p-8 reveal">
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="15" y2="11"/><line x1="9" y1="15" x2="12" y2="15"/></svg>
+            </div>
+            <h3 class="font-semibold text-lg mb-3">Social Media Mensal</h3>
+            <p class="text-sm text-gray-400 mb-6">Gestão completa de redes<br/>Conteúdo + Design + Tráfego<br/>Relatórios mensais</p>
+            <div class="from-badge mb-2">De acordo com a empresa</div>
+            <div class="text-3xl font-bold mb-6 price-badge">R$ 400 - 600</div>
+            <a href="https://wa.me/5533991252910?text=Quero%20saber%20mais%20sobre%20Social%20Media%20Mensal" target="_blank" class="btn-primary w-full py-3 rounded-full block text-center">CONSULTAR</a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="text-center mb-12">
+        <a href="https://wa.me/5533991252910" target="_blank" class="btn-outline px-8 py-3 rounded-full inline-flex items-center gap-2">
+          FALAR COM ESPECIALISTA →
+        </a>
+      </div>
+      
+      <div class="glass-card rounded-2xl p-8 grid grid-cols-2 md:grid-cols-4 gap-8 reveal">
+        <div>
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h4 class="font-semibold text-sm mb-1">Atendimento personalizado</h4>
+          <p class="text-xs text-gray-500">Soluções sob medida para cada cliente.</p>
+        </div>
+        <div>
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h4 class="font-semibold text-sm mb-1">Entrega com qualidade</h4>
+          <p class="text-xs text-gray-500">Prazos cumpridos e resultados reais.</p>
+        </div>
+        <div>
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </div>
+          <h4 class="font-semibold text-sm mb-1">Foco em resultados</h4>
+          <p class="text-xs text-gray-500">Estratégias que geram impacto e crescimento.</p>
+        </div>
+        <div>
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </div>
+          <h4 class="font-semibold text-sm mb-1">Parceria de verdade</h4>
+          <p class="text-xs text-gray-500">Caminhamos junto com você e sua marca.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section id="contato" class="px-6 py-32 relative z-10">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid lg:grid-cols-2 gap-12 items-center reveal">
+        <h2 class="text-4xl lg:text-5xl font-bold leading-tight">
+          Pronto para transformar<br/>
+          sua ideia em algo <span class="text-gray-400 italic font-light">incrível?</span>
+        </h2>
+        <div class="lg:text-right">
+          <p class="text-gray-400 mb-6">Fale com a gente e descubra como podemos levar seu projeto para o próximo nível.</p>
+          <a href="https://wa.me/5533991252910" target="_blank" class="btn-outline px-8 py-3 rounded-full inline-flex items-center gap-2">
+            FALE CONOSCO →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-white/10 py-8 px-6 relative z-10">
+    <div class="max-w-7xl mx-auto text-center text-sm text-gray-500">
+      © 2024 Mediatec // CNPJ 54.972.341/0001-02
+    </div>
+  </footer>
+
+  <script>
+    // REVEAL
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting) entry.target.classList.add('active');
+      });
+    }, {threshold: 0.1});
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
